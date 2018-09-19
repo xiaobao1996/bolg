@@ -41,6 +41,7 @@
                                             <label for="pid" class="col-sm-2 control-label no-padding-right">上级栏目</label>
                                             <div class="col-sm-6">
                                                 <select name="pid" id="pid" style="width: 100%;">
+                                                    <option  value="0">顶级栏目</option>
                                                     <c:forEach items="${cates}" var="cate">
                                                         <c:if test="${cate.level==0}">
                                                             <option  value="${cate.id}">${cate.catename}</option>
@@ -92,6 +93,9 @@
 </body></html>
 <script>
     $(function () {
+        if(${CATE.pid}==null){
+            $("#pid").val(0);
+        }
         $("#pid").val(${CATE.pid});
     })
 </script>

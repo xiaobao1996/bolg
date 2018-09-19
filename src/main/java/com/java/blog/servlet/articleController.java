@@ -28,10 +28,13 @@ public class articleController {
         if(num == null || num.equals("")){
             num = "1";
         }
-        PageUtil pu = articleService.getByPage(num);
+        PageUtil pu = articleService.getByPage(null,null,num);
         List<Article> articles = pu.getRecords();
         request.setAttribute("pager",pu);
         request.setAttribute("Articles",articles);
+
+        List<Article> clikdesc =articleService.clickDesc();
+        request.setAttribute("clikdesc",clikdesc);
         request.getRequestDispatcher("/WEB-INF/admin/article_list.jsp").forward(request,response);
     }
 
@@ -56,4 +59,5 @@ public class articleController {
         articleService.add(article);
             response.sendRedirect("list.do");
     }
+
 }

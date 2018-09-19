@@ -11,5 +11,7 @@ public interface ArticleService {
     int remove(Integer id);
     void add(Article article);
     List<Article> getAll();
-    PageUtil getByPage(String num);
+    PageUtil getByPage(String cateid,String title, String num);
+    void editClick(Integer id);
+    List<Article> clickDesc();
  }

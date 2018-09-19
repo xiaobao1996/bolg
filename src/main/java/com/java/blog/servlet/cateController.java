@@ -52,6 +52,9 @@ public class cateController {
     public  void edit(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
         Integer id = Integer.parseInt(request.getParameter("id"));
         Integer pid = Integer.parseInt(request.getParameter("pid"));
+        if(pid==null||pid.equals("")){
+            pid = 0;
+        }
         String catename = request.getParameter("catename");
         Cate cate = new Cate();
         cate.setId(id);

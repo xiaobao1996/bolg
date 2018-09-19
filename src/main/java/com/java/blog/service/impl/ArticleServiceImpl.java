@@ -17,7 +17,8 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleDao articleDao;
     @Override
     public Article get(Integer id) {
-        return null;
+
+        return articleDao.select(id);
     }
 
     @Override
@@ -33,7 +34,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void add(Article article) {
         article.setClick(0);
-        System.out.println(article.toString()+"888888888888888888888888888888888");
         articleDao.insert(article);
     }
 
@@ -43,15 +43,46 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public PageUtil getByPage(String num) {
+    public PageUtil getByPage(String cateid, String title, String num) {
         if(num == null || num.equals("")){
             num = "1";
         }
-        int count = articleDao.getCount();
-        System.out.println(count+"---------------------------------------------------------");
-        PageUtil pu = new PageUtil(Integer.parseInt(num),count);
-        List<Article> articles = articleDao.getByPage(pu);
-        pu.setRecords(articles);
+        PageUtil pu=null;
+
+        if((cateid==null|| cateid.equals("")) && title==null){
+            int count = articleDao.getCountByPage(null,title);
+            pu = new PageUtil(Integer.parseInt(num),count);
+            List<Article> articles = articleDao.getByPage(pu);
+            pu.setRecords(articles);
+        }else if((cateid!=null&&!cateid.equals(""))&& title==null){
+            int count = articleDao.getCountByPage(Integer.parseInt(cateid),title);
+            pu = new PageUtil(Integer.parseInt(num),count);
+            List<Article> articles = articleDao.getByCate(Integer.parseInt(cateid),pu);
+            pu.setRecords(articles);
+        }else if((cateid==null|| cateid.equals("")) && title!=null){
+            int count = articleDao.getCountByPage(null,title);
+            pu = new PageUtil(Integer.parseInt(num),count);
+            List<Article> articles = articleDao.getByTitle(title,pu);
+            pu.setRecords(articles);
+        }else if((cateid!=null|| !cateid.equals("")) && title!=null){
+            int count = articleDao.getCountByPage(Integer.parseInt(cateid),title);
+            pu = new PageUtil(Integer.parseInt(num),count);
+            List<Article> articles = articleDao.getBy(Integer.parseInt(cateid),title,pu);
+            pu.setRecords(articles);
+        }
         return pu;
+    }
+
+
+    public List<Article> clickDesc(){
+        return articleDao.clickDesc();
+    }
+    public void editClick(Integer id){
+     Integer count = articleDao.getClick(id);
+      count = count+1;
+      Article article =new Article();
+      article.setClick(count);
+      article.setId(id);
+      articleDao.update(article);
     }
 }

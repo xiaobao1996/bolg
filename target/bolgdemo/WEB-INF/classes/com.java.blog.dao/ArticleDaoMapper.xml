@@ -29,7 +29,7 @@
         <set>
             <if test="title!=null">title=#{title},</if>
             <if test="author!=null">author=#{author},</if>
-            <if test="desc!=null">desc=#{desc},</if>
+            <if test="des!=null">des=#{des},</if>
             <if test="keywords!=null">keywords=#{keywords},</if>
             <if test="content!=null">content=#{content},</if>
             <if test="pic!=null">pic=#{pic},</if>
@@ -52,9 +52,46 @@
 
 
     
-    <select id="getByPage" resultMap="ArticleMap">
-        select * from article
+    <select id="getByPage" resultMap="ArticleMap" >
+        select * from article order by id desc
 
         LIMIT #{pageUtil.startIndex},#{pageUtil.pageSize}
+    </select>
+
+    <select id="getByCate" resultMap="ArticleMap">
+    select * from article
+    <where>
+        <if test="cateid!=null">and  cateid=#{cateid}</if>
+    </where>
+    LIMIT #{pageUtil.startIndex},#{pageUtil.pageSize}
+</select>
+
+    <select id="getByTitle" resultMap="ArticleMap">
+        select * from article
+        <where>
+            <if   test="title!=null&amp;&amp;title!=''">and des like CONCAT("%" , #{title} , "%")</if>
+        </where>
+        LIMIT #{pageUtil.startIndex},#{pageUtil.pageSize}
+    </select>
+
+    <select id="getBy" resultMap="ArticleMap">
+        select * from article
+        <where>
+            <if test="cateid!=null">and  cateid=#{cateid}</if>
+            <if   test="title!=null&amp;&amp;title!=''">and des like CONCAT("%" , #{title} , "%")</if>
+        </where>
+        LIMIT #{pageUtil.startIndex},#{pageUtil.pageSize}
+    </select>
+
+    <select id="getCountByPage" resultType="int">
+        select count(1) from article
+        <where>
+            <if test="cateid!=null">and  cateid=#{cateid}</if>
+            <if   test="title!=null&amp;&amp;title!=''">and des like CONCAT("%" , #{title} , "%")</if>
+        </where>
+    </select>
+
+    <select id="clickDesc" resultMap="ArticleMap">
+        select * from article order by click desc limit 0,5
     </select>
 </mapper>

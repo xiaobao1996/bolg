@@ -26,11 +26,8 @@
             </div>
 
             <div class="search f_r">
-                <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
-                    <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
-                    <input name="show" value="title" type="hidden">
-                    <input name="tempid" value="1" type="hidden">
-                    <input name="tbname" value="news" type="hidden">
+                <form action="${pageContext.request.contextPath}/index/list.do" method="post" name="searchform" id="searchform">
+                    <input name="title" id="keyboard" class="input_text" placeholder="请输入关键字！" value="${title}" style="color: rgb(153, 153, 153);" type="text">
                     <input name="Submit" class="input_submit" value="搜索" type="submit">
                 </form>
             </div>
@@ -38,20 +35,21 @@
             <nav>
                 <div  class="navigation">
                     <ul class="menu">
-                        <li><a href="index.html">网站首页</a></li>
-                        <li><a href="#">关于我</a>
+                        <li><a href="${pageContext.request.contextPath}/index/list.do">网站首页</a></li>
+                        <li><a href="${pageContext.request.contextPath}/index/list.do?cateid=12">专业相关</a> </li>
+                        <li><a href="#">个人中心</a>
                             <ul>
-                                <li><a href="about.html">个人简介</a></li>
-                                <li><a href="listpic.html">个人相册</a></li>
+                                <li><a href="${pageContext.request.contextPath}/index/list.do">个人简介</a></li>
+                                <li><a href="${pageContext.request.contextPath}/index/img.do">成长相册</a></li>
                             </ul>
                         </li>
                         <li><a href="#">我的日记</a>
                             <ul>
-                                <li><a href="newslistpic.html">个人日记</a></li>
-                                <li><a href="newslistpic.html">学习笔记</a></li>
+                                <li><a href="${pageContext.request.contextPath}/index/list.do?cateid=10">个人日记</a></li>
+                                <li><a href="${pageContext.request.contextPath}/index/list.do">学习心得</a></li>
                             </ul>
                         </li>
-                        <li><a href="newslistpic.html">技术文章</a> </li>
+
                         <li><a href="#">给我留言</a> </li>
                     </ul>
                 </div>
