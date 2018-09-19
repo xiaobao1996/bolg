@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.blog.dao.CateDao">
+    <resultMap id="CateMap" type="Cate">
+        <id property="id" column="id"/>
+        <result property="catename" column="catename"/>
+        <result property="pid" column="pid"/>
+        <result property="type" column="type"/>
+    </resultMap>
+
+    <select id="selectAll" resultType="Cate">
+        select  * from cate
+    </select>
+    <select id="selectChildrens" resultType="Cate">
+        select  * from cate where id in
+        <foreach collection="list" item="id" index="i" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <delete id="delChildrens" >
+        delete from cate where id in
+        <foreach collection="list" item="id" index="i" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="insert" parameterType="Cate" useGeneratedKeys="true">
+        insert  into cate(catename,pid,type) values (#{catename},#{pid},#{type})
+    </insert>
+
+    <update id="update" parameterType="Cate">
+        update cate
+        <set>
+            <if test="pid!=null">pid=#{pid},</if>
+            <if test="catename!=null">catename=#{catename}</if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
